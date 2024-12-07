@@ -2,21 +2,25 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import folium
 from folium.plugins import HeatMap
 from streamlit_folium import st_folium
 import plotly.express as px
-import io
 from folium.plugins import MarkerCluster
 from streamlit_folium import folium_static
-import pickle
 
 # Load cleaned data
 @st.cache_data
 def load_data():
 
     # api
-    develop_permit2_df = pd.read_csv("https://data.calgary.ca/resource/6933-unw5.csv?$limit=500000")
+    dtypes = {
+        "category": "object",  # Replace with appropriate types (e.g., "str", "float64")
+        "concurrent_loc": "object",
+        "sdabnumber": "object",
+        "sdabdecisiondate": "object"  # Use "object" for mixed types initially
+    }
+
+    develop_permit2_df = pd.read_csv("https://data.calgary.ca/resource/6933-unw5.csv?$limit=500000", dtype=dtypes)
 
     # Handle missing data
     # Drop columns with too many missing values (arbitrary threshold: 90% missing)
@@ -63,7 +67,6 @@ def dev_permit_dashboard():
     from folium.plugins import HeatMap
     from streamlit_folium import st_folium
     import plotly.express as px
-    import io
     from folium.plugins import MarkerCluster
     from streamlit_folium import folium_static
 
